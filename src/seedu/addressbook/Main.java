@@ -1,7 +1,6 @@
 package seedu.addressbook;
 
 import seedu.addressbook.data.person.ReadOnlyPerson;
-
 import seedu.addressbook.storage.StorageFile.*;
 
 import seedu.addressbook.commands.*;
@@ -13,7 +12,7 @@ import seedu.addressbook.ui.TextUi;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.io.FileNotFoundException;
+
 
 /**
  * Entry point of the Address Book application.
@@ -81,12 +80,6 @@ public class Main {
     private void runCommandLoopUntilExitCommand() {
         Command command;
         do {
-        	try {
-        		storage.findFile();
-        	} catch (FileNotFoundException fnfe) {
-        		ui.showToUser(fnfe.getMessage());
-        		System.exit(0);
-        	}
             String userCommandText = ui.getUserCommand();
             command = new Parser().parseCommand(userCommandText);
             CommandResult result = executeCommand(command);
