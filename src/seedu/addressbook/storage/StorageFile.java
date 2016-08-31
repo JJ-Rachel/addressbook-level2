@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -102,7 +103,20 @@ public class StorageFile {
             throw new StorageOperationException("Error converting address book into storage format");
         }
     }
-
+    
+    /**
+     * Find if file exists
+     * 
+     * @throws FileNotFoundException if it was deleted during the execution of the command loop.
+     */
+    public void findFile() throws FileNotFoundException {
+    	File file = path.toFile();    	
+    	if (file.isDirectory() || !file.exists()){
+    		 throw new FileNotFoundException("file does not exist, exiting");
+ 		}
+  
+    }
+    
     /**
      * Loads data from this storage file.
      *
