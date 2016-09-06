@@ -16,6 +16,9 @@ public class Person implements ReadOnlyPerson {
     private Address address;
 
     private final UniqueTagList tags;
+    
+    private static int nextSequenceNumber = 1;
+    private int sequenceNumber;
     /**
      * Assumption: Every field must be present and not null.
      */
@@ -25,6 +28,8 @@ public class Person implements ReadOnlyPerson {
         this.email = email;
         this.address = address;
         this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
+        this.sequenceNumber = nextSequenceNumber;
+        nextSequenceNumber++;
     }
 
     /**
@@ -57,6 +62,11 @@ public class Person implements ReadOnlyPerson {
     @Override
     public UniqueTagList getTags() {
         return new UniqueTagList(tags);
+    }
+    
+    @Override
+    public int getSequenceNumber() {
+    	return sequenceNumber;
     }
 
     /**
