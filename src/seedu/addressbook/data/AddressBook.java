@@ -5,11 +5,13 @@ import seedu.addressbook.data.person.UniquePersonList.*;
 import seedu.addressbook.data.tag.UniqueTagList;
 import seedu.addressbook.data.tag.UniqueTagList.*;
 import seedu.addressbook.data.tag.Tag;
+import seedu.addressbook.data.tag.Tagging;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * Represents the entire address book. Contains the data of the address book.
@@ -22,13 +24,14 @@ public class AddressBook {
 
     private final UniquePersonList allPersons;
     private final UniqueTagList allTags; // can contain tags not attached to any person
-
+    private final ArrayList<Tagging> allTaggings; // keep list of added and deleted tags for printing later
     /**
      * Creates an empty address book.
      */
     public AddressBook() {
         allPersons = new UniquePersonList();
         allTags = new UniqueTagList();
+        allTaggings = new ArrayList<Tagging>();
     }
 
     /**
@@ -44,6 +47,7 @@ public class AddressBook {
         for (Person p : allPersons) {
             syncTagsWithMasterList(p);
         }
+        this.allTaggings = new ArrayList<Tagging>();
     }
 
     /**
@@ -86,8 +90,10 @@ public class AddressBook {
      *
      * @throws DuplicateTagException if an equivalent tag already exists.
      */
-    public void addTag(Tag toAdd) throws DuplicateTagException {
+    public void addTag(Tag toAdd, Person person) throws DuplicateTagException {
         allTags.add(toAdd);
+        Tagging addingTag = new Tagging(person, toAdd, true);
+        allTaggings.add(addingTag);
     }
 
     /**
@@ -118,8 +124,10 @@ public class AddressBook {
      *
      * @throws TagNotFoundException if no such Tag could be found.
      */
-    public void removeTag(Tag toRemove) throws TagNotFoundException {
+    public void removeTag(Tag toRemove, Person person) throws TagNotFoundException {
         allTags.remove(toRemove);
+        Tagging removingTag = new Tagging(person, toRemove, false);
+        allTaggings.add(removingTag);
     }
 
     /**
@@ -142,5 +150,9 @@ public class AddressBook {
      */
     public UniqueTagList getAllTags() {
         return new UniqueTagList(allTags);
+    }
+    
+    public ArrayList<Tagging> getAllTaggings() {
+    	return new ArrayList<Tagging>(allTaggings);
     }
 }
